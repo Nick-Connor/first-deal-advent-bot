@@ -1,0 +1,61 @@
+{
+  "kind": "collectionType",
+  "collectionName": "advent_cells",
+  "info": {
+    "singularName": "advent-cell",
+    "pluralName": "advent-cells",
+    "displayName": "Advent cell"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "day_number": {
+      "type": "integer",
+      "required": true,
+      "unique": true,
+      "min": 1,
+      "max": 31
+    },
+    "cell_type": {
+      "type": "enumeration",
+      "enum": [
+        "text",
+        "quiz",
+        "sticker"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "text_content": {
+      "type": "blocks"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "quiz_options": {
+      "type": "json"
+    },
+    "quiz_correct_answer": {
+      "type": "integer"
+    },
+    "sticker_file_id": {
+      "type": "string"
+    },
+    "user_progresses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-progress.user-progress",
+      "mappedBy": "cell"
+    }
+  }
+}

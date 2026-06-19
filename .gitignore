@@ -1,0 +1,13 @@
+.env
+node_modules/
+__pycache__/
+.tmp/
+*.pyc
+.env
+.idea/
+advita-strapi/backup/
+advita-strapi/backup*.json
+.idea/
+advita-strapi/backup/
+advita-strapi/backup*.json
+*.log

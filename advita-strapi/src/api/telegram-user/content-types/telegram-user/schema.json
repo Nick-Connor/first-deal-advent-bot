@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "telegram_users",
+  "info": {
+    "singularName": "telegram-user",
+    "pluralName": "telegram-users",
+    "displayName": "Telegram User"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "telegram_id": {
+      "type": "biginteger",
+      "required": true,
+      "unique": true
+    },
+    "username": {
+      "type": "string"
+    },
+    "consent_given": {
+      "type": "boolean",
+      "default": false
+    },
+    "registered_at": {
+      "type": "datetime"
+    },
+    "last_notification_date": {
+      "type": "date"
+    },
+    "new_year_congrat_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "user_progresses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-progress.user-progress",
+      "mappedBy": "user"
+    }
+  }
+}

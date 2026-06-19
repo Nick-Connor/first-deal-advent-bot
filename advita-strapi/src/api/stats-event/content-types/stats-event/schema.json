@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "stats_events",
+  "info": {
+    "singularName": "stats-event",
+    "pluralName": "stats-events",
+    "displayName": "Stats event"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "event_type": {
+      "type": "enumeration",
+      "enum": [
+        "cell_opened",
+        "faq_clicked",
+        "donation_click",
+        "user_registered",
+        "question_sent"
+      ]
+    },
+    "event_value": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "datetime"
+    },
+    "telegram_id": {
+      "type": "string"
+    }
+  }
+}

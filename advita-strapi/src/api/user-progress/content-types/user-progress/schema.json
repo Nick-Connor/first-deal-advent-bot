@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_progresses",
+  "info": {
+    "singularName": "user-progress",
+    "pluralName": "user-progresses",
+    "displayName": "User progress"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::telegram-user.telegram-user",
+      "inversedBy": "user_progresses"
+    },
+    "cell": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::advent-cell.advent-cell",
+      "inversedBy": "user_progresses"
+    },
+    "opened_at": {
+      "type": "datetime"
+    },
+    "reward_received": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

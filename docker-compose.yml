@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  # PostgreSQL — база данных
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: user # Пользователь БД
+      POSTGRES_PASSWORD: password # Пароль
+      POSTGRES_DB: strapi_db # Имя БД по умолчанию
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Данные БД (сохраняются)
+      - ./init:/docker-entrypoint-initdb.d    # монтирование папки с дампом
+    ports:
+      - "5432:5432"
+    networks:
+      - advita-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Strapi — CMS и админ-панель
+  strapi:
+    build: ./advita-strapi # Сборка из папки
+    container_name: advita-strapi
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres # Имя сервиса (не localhost)
+      DATABASE_PORT: 5432
+      DATABASE_NAME: strapi_db
+      DATABASE_USERNAME: user # Пользователь из .env
+      DATABASE_PASSWORD: password # Пароль из .env
+      ADMIN_EMAIL: ${ADMIN_EMAIL} # Из .env
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD} # Из .env
+      ADMIN_FIRSTNAME: ${ADMIN_FIRSTNAME}
+      ADMIN_LASTNAME: ${ADMIN_LASTNAME}
+      APP_KEYS: uEuTai62s5brJfSqOQOl1Q==,XjGBSuZwPSv9OI/gVYuj6w==,GROcknhQwY9b/QgKdD09sQ==,KLtziZk2orFMzEw5Y7EPMQ==
+      API_TOKEN_SALT: R1i5HhSM2tJmXUVirjT52w==
+      ADMIN_JWT_SECRET: TX+i+vnY51lw1X/QtiLPSw==
+      JWT_SECRET: fdZH57626Cfk00MbFNQrAQ==
+    ports:
+      - "1337:1337"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - advita-network
+    volumes:
+      - strapi_uploads:/app/public/uploads
+
+  # Telegram-бот
+  bot:
+    build: ./advita-bot # Сборка из папки
+    container_name: advita-bot
+    restart: unless-stopped
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN}  # Из .env
+      STRAPI_URL: http://strapi:1337/api # Strapi по имени сервиса
+      STRAPI_API_TOKEN: ${STRAPI_API_TOKEN}  # Из .env
+    depends_on:
+      strapi:
+        condition: service_started
+    networks:
+      - advita-network
+
+networks:
+  advita-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  strapi_uploads:

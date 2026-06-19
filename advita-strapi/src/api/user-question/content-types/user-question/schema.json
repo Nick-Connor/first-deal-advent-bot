@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_questions",
+  "info": {
+    "singularName": "user-question",
+    "pluralName": "user-questions",
+    "displayName": "User question"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "question_text": {
+      "type": "richtext",
+      "required": true
+    },
+    "email": {
+      "type": "email"
+    },
+    "state": {
+      "type": "enumeration",
+      "default": "new",
+      "enum": [
+        "new",
+        "in_progress",
+        "answered"
+      ]
+    },
+    "telegram_id": {
+      "type": "string"
+    }
+  }
+}
