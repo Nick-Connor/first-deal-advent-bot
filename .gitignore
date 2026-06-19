@@ -11,3 +11,4 @@ advita-strapi/backup*.json
 advita-strapi/backup/
 advita-strapi/backup*.json
 *.log
+.venv/
